@@ -28,6 +28,10 @@ credentials::set_github_pat()
 usethis::gh_token_help()
 usethis::git_sitrep()
 gh::gh_whoami()
+
+usethis::use_git()
+usethis::use_github()
+
 ####
 
 ###############################################################################
@@ -243,7 +247,152 @@ plot_ebola_col_v02 <- ggplot(data = data_ebola_cum_cases,
                             geom_col(position = "stack")
 plot_ebola_col_v02
 
-######
+###### 4c-solution
+# create point plot
+plot_ebola_point_v1 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases)) + 
+  geom_point(alpha = 0.7, colour = "blue", fill = "green", 
+             shape = 22, size = 1.5, stroke = 1.5) 
+plot_ebola_point_v1
+
+# create line plot
+plot_ebola_line_v1 <- ggplot(data = data_ebola_cum_cases, 
+                             mapping = aes(x = date, y = cum_conf_cases)) + 
+  geom_line(mapping = aes(group = country), 
+            alpha = 0.7, colour = "blue", linetype = "dashed", linewidth = 1.5)
+plot_ebola_line_v1
+
+# create column plot
+plot_ebola_col_v1 <- ggplot(data = data_ebola_cum_cases, 
+                            mapping = aes(x = date, y = cum_conf_cases)) + 
+  geom_col(alpha = 0.7, colour = "blue", fill = "green", 
+           linetype = "solid", linewidth = 0.1, position = "stack", width = 0.7)
+plot_ebola_col_v1
+
+###### 4D solution:
+# create point plot
+plot_ebola_point_v2 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_point(alpha = 0.7, shape = 22, size = 1.5, stroke = 1.5) 
+plot_ebola_point_v2
+
+# use a different colour palette:
+plot_ebola_point_v2 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_point(alpha = 0.7, shape = 22, size = 1.5, stroke = 1.5) +
+  scale_color_brewer(palette = "Set2")  # Specify the desired color palette
+
+plot_ebola_point_v2
+
+#### add labels:
+# create point plot
+plot_ebola_point_v3 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_point(alpha = 0.7, shape = 22, size = 1.5, stroke = 1.5) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases") +
+  scale_color_brewer(palette = "Set1")  # Specify the desired color palette
+  plot_ebola_point_v3
+
+# create line plot
+plot_ebola_line_v3 <- ggplot(data = data_ebola_cum_cases, 
+                             mapping = aes(x = date, y = cum_conf_cases, colour = country)) + 
+  geom_line(mapping = aes(group = country), 
+            alpha = 0.7, linetype = "dashed", linewidth = 1.5) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+
+# create column plot
+plot_ebola_col_v3 <- ggplot(data = data_ebola_cum_cases, 
+                            mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_col(alpha = 0.7, linetype = "solid", 
+           linewidth = 0.1, position = "stack", width = 0.7) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases") +
+  scale_color_brewer(palette = "Set2") 
+  
+plot_ebola_col_v3
+
+# create line plot
+plot_ebola_line_v2 <- ggplot(data = data_ebola_cum_cases, 
+                             mapping = aes(x = date, y = cum_conf_cases, colour = country)) + 
+  geom_line(mapping = aes(group = country), 
+            alpha = 0.7, linetype = "dashed", linewidth = 1.5)
+
+# create column plot
+plot_ebola_col_v2 <- ggplot(data = data_ebola_cum_cases, 
+                            mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_col(alpha = 0.7, linetype = "solid", 
+           linewidth = 0.1, position = "stack", width = 0.7)
+
+
+#### 4F solution:
+# create point plot
+# plot_ebola_point_v4 <- ggplot(data = data_ebola_cum_cases, 
+#                               mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+#   geom_point(alpha = 0.7, shape = 22, size = 1.5, stroke = 1.5) +
+#   scale_fill_manual(name = "Country",
+#                     breaks = c("Guinea", "Liberia", "Sierra Leone"),
+#                     values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+#                     labels = c("GIN", "LBR", "SLE")) +
+#   scale_colour_manual(name = "Country",
+#                       breaks = c("Guinea", "Liberia", "Sierra Leone"),
+#                       values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+#                       labels = c("GIN", "LBR", "SLE")) +
+#   ggtitle(label = "Confirmed Ebola") +
+#   xlab(label = "Time") +
+#   ylab(label = "Cum. # of confirmed cases")
+
+plot_ebola_point_v4 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_point(alpha = 0.7, shape = 22, size = 1.5, stroke = 1.5) +
+  scale_fill_manual(name = "Country",
+                    #breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                    values = c("#FF0000", "#00BFFF", "#FFDB58"),
+                    labels = c("GIN", "LBR", "SLE")) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c("#FF0000", "#00BFFF", "#FFDB58"),
+                      labels = c("GIN", "LBR", "SLE")) +
+  ggtitle(label = "Confirmed Ebola") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+plot_ebola_point_v4
+
+
+# create line plot
+plot_ebola_line_v4 <- ggplot(data = data_ebola_cum_cases, 
+                             mapping = aes(x = date, y = cum_conf_cases, colour = country)) + 
+  geom_line(mapping = aes(group = country), 
+            alpha = 0.7, linetype = "dashed", linewidth = 1.5) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                      labels = c("GIN", "LBR", "SLE")) +
+  ggtitle(label = "Confirmed Ebola") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+
+# create column plot
+plot_ebola_col_v4 <- ggplot(data = data_ebola_cum_cases, 
+                            mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_col(alpha = 0.7, linetype = "solid", 
+           linewidth = 0.1, position = "stack", width = 0.7) +
+  scale_fill_manual(name = "Country",
+                    breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                    values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                    labels = c("GIN", "LBR", "SLE")) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                      labels = c("GIN", "LBR", "SLE")) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+
 
 
 
