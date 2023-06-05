@@ -22,8 +22,8 @@ pre <-here("pre_output")
 
 ### git-connection:
 usethis::use_git_config(user.name="boesoin", user.email="andreas.boss@unibe.ch")
-1gitcreds::gitcreds_set()
-credentials::set_github_pat()
+gitcreds::gitcreds_set()
+#credentials::set_github_pat()
 
 usethis::gh_token_help()
 usethis::git_sitrep()
@@ -393,6 +393,70 @@ plot_ebola_col_v4 <- ggplot(data = data_ebola_cum_cases,
   xlab(label = "Time") +
   ylab(label = "Cum. # of confirmed cases")
 
+################# 4g solution:
+# create point plot
+
+plot_ebola_point_v5 <- ggplot(data = data_ebola_cum_cases, 
+                              mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_point(alpha = 0.7, 
+             shape = 22, size = 1.5, stroke = 1.5) +
+  scale_fill_manual(name = "Country",
+                    breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                    values = c("#FF0000", "#00BFFF", "#FFDB58"),
+                    labels = c("GIN", "LBR", "SLE")) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c("#FF0000", "#00BFFF", "#FFDB58"),
+                      labels = c("GIN", "LBR", "SLE")) +
+  scale_x_date(breaks = as.Date(c("2014-08-29", "2014-10-01", "2014-12-01", "2015-02-01", "2015-04-01")),
+               labels = c("29 August", "1 October", "1 December", "1 February", "1 April"),
+               limits = as.Date(c("2014-08-28", "2015-04-01"))) +
+  scale_y_continuous(breaks = seq(from = 0, to = 10000, by = 2500),
+                     limits = c(0, 10000)) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+plot_ebola_point_v5
+
+# create line plot
+plot_ebola_line_v5 <- ggplot(data = data_ebola_cum_cases, 
+                             mapping = aes(x = date, y = cum_conf_cases, colour = country)) + 
+  geom_line(mapping = aes(group = country), 
+            alpha = 0.7, linetype = "dashed", linewidth = 1.5) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                      labels = c("GIN", "LBR", "SLE")) +
+  scale_x_date(breaks = as.Date(c("2014-08-29", "2014-10-01", "2014-12-01", "2015-02-01", "2015-04-01")),
+               labels = c("29 August", "1 October", "1 December", "1 February", "1 April"),
+               limits = as.Date(c("2014-08-28", "2015-04-01"))) +
+  scale_y_continuous(breaks = seq(from = 0, to = 10000, by = 2500),
+                     limits = c(0, 10000)) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
+
+# create column plot
+plot_ebola_col_v5 <- ggplot(data = data_ebola_cum_cases, 
+                            mapping = aes(x = date, y = cum_conf_cases, fill = country, colour = country)) + 
+  geom_col(alpha = 0.7, linetype = "solid", 
+           linewidth = 0.1, position = "stack", width = 0.7) +
+  scale_fill_manual(name = "Country",
+                    breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                    values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                    labels = c("GIN", "LBR", "SLE")) +
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c(unibeRedS()[1], unibeOceanS()[1], unibeMustardS()[1]),
+                      labels = c("GIN", "LBR", "SLE")) +
+  scale_x_date(breaks = as.Date(c("2014-08-29", "2014-10-01", "2014-12-01", "2015-02-01", "2015-04-01")),
+               labels = c("29 August", "1 October", "1 December", "1 February", "1 April"),
+               limits = as.Date(c("2014-08-28", "2015-04-01"))) +
+  scale_y_continuous(breaks = seq(from = 0, to = 15000, by = 2500),
+                     limits = c(0, 15000)) +
+  ggtitle(label = "Confirmed Ebola cases") +
+  xlab(label = "Time") +
+  ylab(label = "Cum. # of confirmed cases")
 
 
 
