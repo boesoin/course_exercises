@@ -22,7 +22,13 @@ pre <-here("pre_output")
 
 ### git-connection:
 usethis::use_git_config(user.name="boesoin", user.email="andreas.boss@unibe.ch")
+1gitcreds::gitcreds_set()
+credentials::set_github_pat()
 
+usethis::gh_token_help()
+usethis::git_sitrep()
+gh::gh_whoami()
+####
 
 ###############################################################################
 
