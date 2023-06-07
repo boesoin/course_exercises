@@ -1,0 +1,74 @@
+---
+title: "myfirst_quarto"
+author: "ab"
+format: html
+editor: visual
+
+---
+
+## Quarto
+
+This is my first report using Quarto. The analysis was done using:
+```{r}
+#| echo: false
+sessionInfo()
+```
+
+
+## Create and publish a graph using Quarto
+
+Data was taken from the embedded dataset "mtcars". The graph was created using ChatGPT.
+
+```{r}
+#| echo: false
+
+#### download if necessary and load the libraries:
+pacman::p_load(
+  rio,         # import/export
+  here,        # file locator
+  usethis,
+  gitcreds,
+  tidyverse,  # collection of packages...
+  medicaldata,
+  cowplot,
+  Hmisc
+  #ggpmisc
+)
+######
+
+df <-mtcars
+str(df)
+
+# Display variable labels
+
+
+# Display variable labels
+library(Hmisc)
+label(df)
+#data is apparently not labelled
+
+# Create scatter plot : weight vs. efficiency
+fig1_wt_vs_efficiency_01 <- ggplot(df, aes(x = wt, y = mpg,)) +
+  geom_point(size = 4, alpha = 0.5, color = "blue") +
+  labs(x = "Weight [non SI-unit]", y = "Efficiency = miles per gallon [mpg]") +
+  ggtitle("Weight vs. Efficiency ") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = FALSE) + # add a non-linear fit, just because
+  theme_bw()
+fig1_wt_vs_efficiency_01
+```
+## Questions
+- Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --> How would I organize my work?
+-master-file, invoking:
+1) r-script: data-import
+2) r-script: preprocessing of data
+then: loop over all departments and  
+3)r-script: analysis - graphs
+4) quarto-script: publish report (as xml, pdf, )
+
+
+
+
+
+
+
+
