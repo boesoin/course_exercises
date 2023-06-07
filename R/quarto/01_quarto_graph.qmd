@@ -64,7 +64,7 @@ df <-mtcars
 #   theme()
 # fig1_wt_vs_efficiency_01
 
-# use different data:
+######################### use different data: #####################################################
 str(data_ebola)
 str(insurance)
 # note: smoker is text.
@@ -78,24 +78,29 @@ insurance$children_bin <- ifelse(insurance$children == 0, 0, 1)
 table(insurance$children_bin)
 
 ### 
-#hypothesis: those with children are less likely to be smoker...
-ggplot(insurance, aes(x = smoker, fill = factor(children_bin))) +
-  geom_bar(position = "fill") +
-  labs(x = "Smoker", y = "Proportion") +
-  ggtitle("Do people with children smoke less?") +
-  scale_fill_manual(values = c("0" = "blue", "1" = "red"), labels = c("No Children", "Children"))
+# #hypothesis: those with children are less likely to be smoker...
+# ggplot(insurance, aes(x = smoker, fill = factor(children_bin))) +
+#   geom_bar(position = "fill") +
+#   labs(x = "Smoker", y = "Proportion") +
+#   ggtitle("Do people with children smoke less?") +
+#   scale_fill_manual(values = c("0" = "blue", "1" = "red"), labels = c("No Children", "Children"))
+# 
+# ### is this possible?
+# # Tabulate "smoker" by "children_bin"
+# tab <- table(insurance$smoker, insurance$children_bin)
+# 
+# # Calculate the proportions of smokers
+# prop <- prop.table(tab, margin = 2)
+# 
+# # Display the proportions
+# prop
+# # well, this is not that interesting...
 
-### is this possible?
-# Tabulate "smoker" by "children_bin"
-tab <- table(insurance$smoker, insurance$children_bin)
-
-# Calculate the proportions of smokers
-prop <- prop.table(tab, margin = 2)
-
-# Display the proportions
-prop
-# well, this is not that interesting...
-
+####### use a dataset from medicaldata
+df <- strep_tb
+str(df)
+table(df$arm)
+table(df$gender)
 
 
 
