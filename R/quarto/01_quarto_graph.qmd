@@ -33,8 +33,13 @@ pacman::p_load(
   cowplot,
   Hmisc
   #ggpmisc
+  renv # --> lock file with info on environment
 )
 ######
+
+#### to save a lock-file
+# renv::init()
+####
 
 df <-mtcars
 str(df)
