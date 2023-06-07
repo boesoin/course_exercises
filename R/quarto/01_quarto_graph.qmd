@@ -3,17 +3,16 @@ title: "myfirst_quarto"
 author: "ab"
 format: html
 editor: visual
-
 ---
 
 ## Quarto
 
 This is my first report using Quarto. The analysis was done using:
+
 ```{r}
 #| echo: false
 sessionInfo()
 ```
-
 
 ## Create and publish a graph using Quarto
 
@@ -31,8 +30,8 @@ pacman::p_load(
   tidyverse,  # collection of packages...
   medicaldata,
   cowplot,
-  Hmisc
-  #ggpmisc
+  Hmisc,
+  #ggpmisc,
   renv # --> lock file with info on environment
 )
 ######
@@ -42,38 +41,75 @@ pacman::p_load(
 ####
 
 df <-mtcars
-str(df)
+#str(df)
 
 # Display variable labels
 
-
 # Display variable labels
-library(Hmisc)
-label(df)
+#library(Hmisc)
+#label(df)
 #data is apparently not labelled
 
+#
+
 # Create scatter plot : weight vs. efficiency
-fig1_wt_vs_efficiency_01 <- ggplot(df, aes(x = wt, y = mpg,)) +
-  geom_point(size = 4, alpha = 0.5, color = "blue") +
-  labs(x = "Weight [non SI-unit]", y = "Efficiency = miles per gallon [mpg]") +
-  ggtitle("Weight vs. Efficiency ") +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = FALSE) + # add a non-linear fit, just because
-  theme_bw()
-fig1_wt_vs_efficiency_01
+# fig1_wt_vs_efficiency_01 <- ggplot(df, aes(x = wt, y = mpg,)) +
+#   geom_point(size = 4, alpha = 0.5, ) +
+#   labs(x = "Weight [non SI-unit]", y = "Efficiency = miles per gallon [mpg]") +
+#   ggtitle("Weight vs. Efficiency ") +
+#   geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = FALSE) + # add a non-linear fit, just because
+#   scale_color_brewer(palette = "Set2") +
+#   scale_fill_discrete(name = "Legend",
+#       labels = c("data points", "fit (2nd degree polygon)" )) +
+#   theme()
+# fig1_wt_vs_efficiency_01
+
+# use different data:
+str(data_ebola)
+str(insurance)
+# note: smoker is text.
+table(insurance$smoker)
+#create factor-variable:
+insurance$smoker <- factor(insurance$smoker, levels = c("no", "yes"))
+table(insurance$smoker)
+str(insurance)
+#generate binary variable children:
+insurance$children_bin <- ifelse(insurance$children == 0, 0, 1)
+table(insurance$children_bin)
+
+### 
+#hypothesis: those with children are less likely to be smoker...
+ggplot(insurance, aes(x = smoker, fill = factor(children_bin))) +
+  geom_bar(position = "fill") +
+  labs(x = "Smoker", y = "Proportion") +
+  ggtitle("Do people with children smoke less?") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red"), labels = c("No Children", "Children"))
+
+### is this possible?
+# Tabulate "smoker" by "children_bin"
+tab <- table(insurance$smoker, insurance$children_bin)
+
+# Calculate the proportions of smokers
+prop <- prop.table(tab, margin = 2)
+
+# Display the proportions
+prop
+# well, this is not that interesting...
+
+
+
+
+
+
+
+
 ```
+
 ## Questions
-- Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --> How would I organize my work?
--master-file, invoking:
-1) r-script: data-import
-2) r-script: preprocessing of data
-then: loop over all departments and  
-3)r-script: analysis - graphs
-4) quarto-script: publish report (as xml, pdf, )
 
+-   Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --\> How would I organize my work? -master-file, invoking:
 
-
-
-
-
-
-
+1)  r-script: data-import
+2)  r-script: preprocessing of data then: loop over all departments and\
+    3)r-script: analysis - graphs
+3)  quarto-script: publish report (as xml, pdf, )
