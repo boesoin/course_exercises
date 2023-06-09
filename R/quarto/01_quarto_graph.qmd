@@ -62,7 +62,10 @@ df <-mtcars
 #   scale_fill_discrete(name = "Legend",
 #       labels = c("data points", "fit (2nd degree polygon)" )) +
 #   theme()
-# fig1_wt_vs_efficiency_01
+# # fig1_wt_vs_efficiency_01
+# --> use this: website:
+#   https://www.datavis.ca/courses/RGraphics/R/gg-cars.html
+
 
 ######################### use different data: #####################################################
 str(data_ebola)
@@ -101,8 +104,12 @@ df <- strep_tb
 str(df)
 table(df$arm)
 table(df$gender)
+table(df$improved)
+###############
 
 
+################################# render and push #################################
+quarto::quarto_render("products/report/01_first_quarto_001.Rmd")
 
 
 

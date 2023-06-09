@@ -1,0 +1,231 @@
+---
+title: "myfirst_quarto"
+author: "ab"
+format: html
+editor: visual
+---
+
+## my first report using QUARTO for the "Swiss Health-Registry"
+
+In a first part, which I would probably run as a normal R-Script (01_import), I am loading-in my data.
+
+```{r eval=TRUE, echo=FALSE, include=FALSE}
+
+sessionInfo()
+#### download if necessary and load the libraries:
+pacman::p_load(
+  rio,         # import/export
+  here,        # file locator
+  usethis,
+  gitcreds,
+  tidyverse,  # collection of packages...
+  medicaldata,
+  cowplot,
+  #Hmisc,
+  #ggpmisc,
+  renv, # --> lock file with info on environment
+  riskCommunicator, # contains data of the Frammingham-Study
+  quarto
+)
+###
+# Framingham heart study data
+fram <- riskCommunicator::framingham
+
+
+```
+
+Then I would preprocess (02_preprocess):
+
+```{r eval=TRUE, echo=FALSE, include=FALSE}
+#| echo: false
+# We keep only the baseline examination data
+db <- subset(fram, TIME == 0)
+
+###################### inspect the file
+str(db)
+head(db)
+colnames(db)
+tail(db)
+summary(db)
+######################
+
+################## create a variable clinic 1 2, label "my clinic" and "all other clinics"
+
+### stable sorting of data:
+db <- arrange_all(db)
+### the code works, I think it produces the same ordering each time. should be tested...
+
+#### generate variable clinic:
+db$clinic <- 2
+db$clinic
+
+# Count the number of rows in the data frame
+row_count <- nrow(db)
+print(paste("Number of rows in db:", row_count))
+## thank you ChatGTP!
+# Identify the indices of every 13th row
+indices <- seq(21, row_count, by = 21)
+
+
+# Replace the corresponding values in the 'clinic' variable with 2
+db$clinic[indices] <- 1
+db$clinic
+table(db$clinic)
+
+# Label the 'clinic' variable
+goonhere: apparently it does not label, but it does change the variable...
+db <- db %>%
+  mutate(clinic = case_when(
+    clinic == 1 ~ "my clinic",
+    clinic == 2 ~ "all other clinics",
+    TRUE ~ as.character(clinic)  # Retain other values as is
+  ))
+# the code above is from ChatGPT --> there must be easier ways!!?
+table(db$clinic)
+####
+# ### set all variables to lower script:
+# https://www.codingprof.com/how-to-change-the-case-of-column-names-in-r-examples/
+
+### set variable names to lower-case:
+names(db) <- tolower(names(db)) # ok... that is not straight-forward
+str(db)
+###
+
+##### label other variables
+db <- db %>%
+  mutate(sex = case_when(
+    sex == 1 ~ "f",
+    sex == 2 ~ "m",
+    TRUE ~ as.character(sex)  # Retain other values as is
+  ))
+str(db)
+```
+
+## Table 1.1 for a registry-report (reporting data of the entire registry)
+
+```{r}
+#| echo: FALSE
+library(gtsummary)
+db |>
+  dplyr::select(sex, age, bmi, cursmoke, prevhyp, diabetes,) |>
+  tbl_summary(
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{mean} ({sd})",
+                                     "{median} ({p25}, {p75})",
+                                     "{min}, {max}")
+  )
+ # kable() this is apparently not necessary
+
+
+```
+## Table 1.2 for a hospital-report (reporting data of my clinic vs. all other clinics)
+
+```{r}
+#| echo: FALSE
+library(gtsummary)
+
+db |>
+  dplyr::select(sex, age, bmi, cursmoke, prevhyp, diabetes, clinic) |>
+  tbl_summary(
+    by = clinic,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{mean} ({sd})",
+                                     "{median} ({p25}, {p75})",
+                                     "{min}, {max}")
+  )
+
+##### add a density-plot of the variable age:
+db |>
+  dplyr::select(age,clinic) |>
+
+  ggplot(aes(x = age, fill = clinic)) +
+    geom_density(alpha = 0.5) +
+    xlab("Age") +
+    ylab("Density") +
+    ggtitle("Density Plot of Age by Clinic") +
+    scale_fill_brewer(palette = "Set2") +
+    theme_minimal()
+
+
+```
+
+This is amazing - the table is a good start, it is produced with a few lines of codes. It would cost me hundreds of lines creating and exporting the same kind of table and graph using STATA...
+
+## Data exploration
+One could now do a t-test for age between the two groups "my clinic" vs. "all other clinics". This is not that interesting... What I will do instead: compare the first quantile in BMI with the last quantile. I will do this for the entire registry and also in the reduced dataset of "my clinic".
+
+## Follows a boxplot
+add some text here.
+
+```{r}
+#| echo: FALSE
+
+library(dplyr)
+library(rstatix)
+str(db)
+db|>
+  mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate  --> should be tested...
+  dplyr::filter(bmi_group == 1 | bmi_group == 4) |>
+  ggplot(aes(x = as.factor(bmi_group), y = sysbp)) +
+  geom_boxplot() +
+  xlab("BMI Group") +
+  ylab("Systolic blood pressure [mmHg]") +
+  ggtitle("Boxplot of BMI in the lowest and highest quartile of bmi")  +
+  theme_minimal()
+
+```  
+
+## is systolic blood pressure different in the first vs. 4th quartile of bmi?
+Since I have high numbers in both groups, it is safe to do a t-test:
+
+```{r}
+#| echo: FALSE
+table(db$bmi_group) 
+# if I do this for the entire registry, I am safe, the numbers are high... 
+
+### hypothesis: the sysbp is different in the group of the highest and lowest bmi:
+#### I am now doing a t-test:
+
+#?t_test
+
+db|>
+  mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate  --> should be tested...
+  dplyr::filter(bmi_group == 1 | bmi_group == 4) |>
+  # Two-samples unpaired test
+  #:::::::::::::::::::::::::::::::::::::::::
+  t_test(sysbp ~ bmi_group)
+
+```
+
+## Analysis of data of "my clinic"
+
+```{r}
+#| echo: FALSE
+
+
+todo before: change clinic to numeric variable...
+db2<- db |>
+  dplyr::filter(clinic == "my clinic") |>
+  mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate  --> should be tested...
+  dplyr::filter(bmi_group == 1 | bmi_group == 4) 
+
+### now I will be
+
+```
+
+
+```{r}
+#| echo: false
+################################# render #################################
+#quarto::quarto_render("R/quarto/01_registry_hospital_report.Rmd")
+#have a look at it!
+```
+
+## Questions
+
+-   Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --\> How would I organize my work? -master-file, invoking:
+
+1)  r-script: data-import
+2)  r-script: preprocessing of data then: loop over all departments and\
+    3)r-script: analysis - graphs
+3)  quarto-script: publish report (as xml, pdf, )
