@@ -49,39 +49,71 @@ tail(db)
 summary(db)
 ######################
 
-################## create a variable clinic 1 2, label "my clinic" and "all other clinics"
+
+#### make the variable sex a factor
+#note: I did a quick search in the resources, but do not know if 1=m or 1=f...
+# for real data I would need to enquire
+
+# db <- db |>
+#   mutate(sex_str = "f") |>
+#    mutate(sex_str = replace(sex_str, SEX == 2, "m"))
+# table(db$sex_str) 
+
+
+db$SEX <- factor(db$SEX,
+  levels = c(1, 2),
+  labels = c("f", "m"))
+table(db$SEX)
+# I now have a factor which is labelled...
+####
+
+
+###### create department_id 
+db$dep_id <- 3
+
 
 ### stable sorting of data:
 db <- arrange_all(db)
-### the code works, I think it produces the same ordering each time. should be tested...
+### the code works, I think it produces the same ordering each time. should be tested…
 
-#### generate variable clinic:
-db$clinic <- 2
-db$clinic
-
-# Count the number of rows in the data frame
 row_count <- nrow(db)
 print(paste("Number of rows in db:", row_count))
 ## thank you ChatGTP!
-# Identify the indices of every 13th row
-indices <- seq(21, row_count, by = 21)
+# Identify the indices of every 21th row
+indices <- seq(23, row_count, by = 23)
+### replace:
+db$dep_id[indices] <- 1
+
+### add dep-id no. 2:
+indices <- seq(29, row_count, by = 29)
+db$dep_id[indices] <- 2
+###
+
+# tabulate dep_ids:
+#summary(db$dep_id)
+table(db$dep_id)
 
 
-# Replace the corresponding values in the 'clinic' variable with 2
-db$clinic[indices] <- 1
-db$clinic
-table(db$clinic)
+#### generate variable clinic
+# will be: 1 "my clinic" vs. 2 "all other clinics"
+  
+db$clinic <- 2
 
-# Label the 'clinic' variable
-goonhere: apparently it does not label, but it does change the variable...
+# a simple replace:
 db <- db %>%
-  mutate(clinic = case_when(
-    clinic == 1 ~ "my clinic",
-    clinic == 2 ~ "all other clinics",
-    TRUE ~ as.character(clinic)  # Retain other values as is
-  ))
-# the code above is from ChatGPT --> there must be easier ways!!?
+  mutate(clinic = if_else(dep_id == 1, 1, clinic))
 table(db$clinic)
+# are there no easier "replace-functions"?
+### I could label my variable clinic here...
+
+# make the variable clinic also a factor:
+db$clinic <- factor(db$clinic,
+  levels = c(1, 2),
+  labels = c("my clinic", "all other clinics"))
+table(db$clinic)
+# --> this will then used in the table!
+
+
 ####
 # ### set all variables to lower script:
 # https://www.codingprof.com/how-to-change-the-case-of-column-names-in-r-examples/
@@ -91,13 +123,14 @@ names(db) <- tolower(names(db)) # ok... that is not straight-forward
 str(db)
 ###
 
+
 ##### label other variables
-db <- db %>%
-  mutate(sex = case_when(
-    sex == 1 ~ "f",
-    sex == 2 ~ "m",
-    TRUE ~ as.character(sex)  # Retain other values as is
-  ))
+# db <- db %>%
+#   mutate(sex = case_when(
+#     sex == 1 ~ "f",
+#     sex == 2 ~ "m",
+#     TRUE ~ as.character(sex)  # Retain other values as is
+#   ))
 str(db)
 ```
 
@@ -106,18 +139,23 @@ str(db)
 ```{r}
 #| echo: FALSE
 library(gtsummary)
+library(dplyr)
 db |>
   dplyr::select(sex, age, bmi, cursmoke, prevhyp, diabetes,) |>
   tbl_summary(
     type = all_continuous() ~ "continuous2",
+    label = list(age ~ "Age [y]",
+                 bmi ~ "BMI [kg/m^2]",
+                 cursmoke ~ "currently smoking",
+                 prevhyp ~ "Hypertension",
+                 diabetes ~ "Diabetes"),
     statistic = all_continuous() ~ c("{mean} ({sd})",
                                      "{median} ({p25}, {p75})",
                                      "{min}, {max}")
   )
- # kable() this is apparently not necessary
-
 
 ```
+
 ## Table 1.2 for a hospital-report (reporting data of my clinic vs. all other clinics)
 
 ```{r}
@@ -125,16 +163,28 @@ db |>
 library(gtsummary)
 
 db |>
-  dplyr::select(sex, age, bmi, cursmoke, prevhyp, diabetes, clinic) |>
+  dplyr::select(clinic, sex, age, bmi, cursmoke, prevhyp, diabetes,) |>
   tbl_summary(
     by = clinic,
     type = all_continuous() ~ "continuous2",
+    label = list(age ~ "Age [y]",
+                 bmi ~ "BMI [kg/m^2]",
+                 cursmoke ~ "currently smoking",
+                 prevhyp ~ "Hypertension",
+                 diabetes ~ "Diabetes"),
     statistic = all_continuous() ~ c("{mean} ({sd})",
                                      "{median} ({p25}, {p75})",
                                      "{min}, {max}")
-  )
+  ) |>
+  add_p() # note: added w/o looking into details. Idea: gives hint if there are significant differences
+```
+This is amazing - the table is a good start, it is produced with a few lines of codes. It would cost me hundreds of lines creating and exporting the same kind of table and graph using STATA...
 
-##### add a density-plot of the variable age:
+
+```{r}
+#| echo: FALSE
+library(gtsummary)  
+# ##### add a density-plot of the variable age:
 db |>
   dplyr::select(age,clinic) |>
 
@@ -149,12 +199,15 @@ db |>
 
 ```
 
-This is amazing - the table is a good start, it is produced with a few lines of codes. It would cost me hundreds of lines creating and exporting the same kind of table and graph using STATA...
+
+
 
 ## Data exploration
+
 One could now do a t-test for age between the two groups "my clinic" vs. "all other clinics". This is not that interesting... What I will do instead: compare the first quantile in BMI with the last quantile. I will do this for the entire registry and also in the reduced dataset of "my clinic".
 
 ## Follows a boxplot
+
 add some text here.
 
 ```{r}
@@ -173,15 +226,16 @@ db|>
   ggtitle("Boxplot of BMI in the lowest and highest quartile of bmi")  +
   theme_minimal()
 
-```  
+```
 
 ## is systolic blood pressure different in the first vs. 4th quartile of bmi?
+
 Since I have high numbers in both groups, it is safe to do a t-test:
 
 ```{r}
 #| echo: FALSE
-table(db$bmi_group) 
-# if I do this for the entire registry, I am safe, the numbers are high... 
+table(db$bmi_group)
+# if I do this for the entire registry, I am safe, the numbers are high...
 
 ### hypothesis: the sysbp is different in the group of the highest and lowest bmi:
 #### I am now doing a t-test:
@@ -201,18 +255,81 @@ db|>
 
 ```{r}
 #| echo: FALSE
+str(db)
+table(db$clinic)
+
+db_clin<- db |>
+  dplyr::filter(clinic == "my clinic") |>  # apparently, I have to use the label of the factor...
+  mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate quartiles of bmi  --> should be tested...
+  dplyr::filter(bmi_group == 1 | bmi_group == 4)
+table(db_clin$bmi_group)
+str(db_clin)
+
+### now I have a a dataset with lower n..
+# --> let's make a histogram across groups
+
+library(ggplot2)
+library(dplyr)
 
 
-todo before: change clinic to numeric variable...
-db2<- db |>
-  dplyr::filter(clinic == "my clinic") |>
-  mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate  --> should be tested...
-  dplyr::filter(bmi_group == 1 | bmi_group == 4) 
+db_clin %>%
+  ggplot(aes(sysbp)) +
+  geom_histogram(bins = 16, alpha=0.5) +
+  xlab("Systolic blood pressure [mmHg]") +
+  ylab("Count") +
+  ggtitle("Histogram of Systolic Blood Pressure") +
+  theme_minimal() +
+  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "BMI-group 1", "4" = " BMI-group 4"))) +
+###
 
-### now I will be
+### qqplot
+library(ggplot2)
+library(dplyr)
 
+db_clin %>%
+  ggplot(aes(sample = sysbp)) +
+  geom_qq() +
+  geom_qq_line(distribution = stats::qnorm) +
+  xlab("Theoretical Quantiles") +
+  ylab("Sample Quantiles") +
+  ggtitle("QQ Plot of Systolic Blood Pressure") +
+  theme_minimal() +
+  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "BMI-group 1", "4" = " BMI-group 4")))  
 ```
 
+```{r}
+#| echo: FALSE
+### normality-test:
+# remember: Ho: normal distribution
+db_clin %>%
+  shapiro_test(sysbp)
+
+### test: for-loop:
+db_clin <- arrange(db_clin, bmi_group)
+groups <- unique(db_clin$bmi_group) # this will create a vector. How can I change the order? --> by ordering the data first ;-) 
+
+#groups <- data.frame(groups) # if I wanted a group
+counter <- 0
+for (group in groups) {
+  counter <- counter + 1
+  print(paste("Printing group:", group))
+  print(paste("Printing counter:", counter))
+  
+  df_name <- paste("db_clin_", counter, sep = "") # this concatenates
+  assign(df_name, db_clin %>% # assigns a value to a name..
+           filter(bmi_group == group))
+  # Perform Shapiro-Wilk test on sysbp variable for each data frame
+  shapiro_result <- shapiro_test(get(df_name)$sysbp)
+  print(paste("Shapiro-Wilk test result for", df_name))
+  print(shapiro_result)
+}  
+# --> since the p-value of one group and both groups together is not in agreement with the H0, I will now perform a non-parametric test.
+
+db_clin %>%
+  wilcox_test(sysbp ~ bmi_group)
+  
+```
+add some text here
 
 ```{r}
 #| echo: false
