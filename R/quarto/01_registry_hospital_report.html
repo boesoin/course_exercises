@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="ab">
+<meta name="author" content="A. Boss">
+<meta name="dcterms.date" content="2023-06-15">
 
-<title>myfirst_quarto</title>
+<title>Swiss Health Registry - Yearly report 2023</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,69 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -109,7 +47,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">myfirst_quarto</h1>
+<h1 class="title">Swiss Health Registry - Yearly report 2023</h1>
 </div>
 
 
@@ -119,10 +57,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>ab </p>
+             <p>A. Boss </p>
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 15, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -130,25 +74,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="my-first-report-using-quarto-for-the-swiss-health-registry" class="level2">
-<h2 class="anchored" data-anchor-id="my-first-report-using-quarto-for-the-swiss-health-registry">my first report using QUARTO for the “Swiss Health-Registry”</h2>
-<p>In a first part, which I would probably run as a normal R-Script (01_import), I am loading-in my data.</p>
-<p>Then I would preprocess (02_preprocess):</p>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>My work involves creating reproducible reports using our medical registry data. Typically, we create two types of reports: ‘registry reports,’ which utilize descriptive statistics from the entire registry, and ‘clinic reports,’ which compare data from our clinic to the aggregated data of all other clinics. Until now, we have been utilizing the statistical software package ‘STATA.’ While STATA allows for reproducible reporting, the project setup process is laborious, and it lacks flexibility in choosing the output format.</p>
+<p>RStudio, an open-source statistical package widely used in biomedical research, offers an alternative. Its package called ‘QUARTO’ promises to provide a simpler way of creating reproducible reports with multiple options for output formats.</p>
+<section id="aim" class="level3">
+<h3 class="anchored" data-anchor-id="aim">Aim</h3>
+<p>Aim of this project is to assess the potential of Rstudios’ ‘QUARTO’-package for reproducible reporting of registry data.</p>
 </section>
-<section id="table-1.1-for-a-registry-report-reporting-data-of-the-entire-registry" class="level2">
-<h2 class="anchored" data-anchor-id="table-1.1-for-a-registry-report-reporting-data-of-the-entire-registry">Table 1.1 for a registry-report (reporting data of the entire registry)</h2>
+<section id="methods" class="level3">
+<h3 class="anchored" data-anchor-id="methods">Methods</h3>
+<p>Dummy data was obtained using the Framingam data-frame (‘riskCommunicator’-package). Dummy department_IDs were created. Please refer to the QUARTO-file for the code.</p>
+</section>
+</section>
+<section id="table-1.1-overview-registry-report" class="level2">
+<h2 class="anchored" data-anchor-id="table-1.1-overview-registry-report">Table 1.1 Overview: Registry report</h2>
+<p>Using the ‘tidyverse’-package ‘gtsummary’, an overview-table can be created easily:</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Paket 'gtsummary' wurde unter R Version 4.1.3 erstellt</code></pre>
-</div>
 <div class="cell-output-display">
 
-<div id="yxgyeatcah" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qccofhicaw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#yxgyeatcah) .gt_table {
+:where(#qccofhicaw) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -173,7 +123,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_heading {
+:where(#qccofhicaw) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -185,12 +135,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_caption {
+:where(#qccofhicaw) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#yxgyeatcah) .gt_title {
+:where(#qccofhicaw) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -202,7 +152,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#yxgyeatcah) .gt_subtitle {
+:where(#qccofhicaw) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -214,13 +164,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#yxgyeatcah) .gt_bottom_border {
+:where(#qccofhicaw) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_col_headings {
+:where(#qccofhicaw) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -235,7 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_col_heading {
+:where(#qccofhicaw) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -255,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#yxgyeatcah) .gt_column_spanner_outer {
+:where(#qccofhicaw) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -267,15 +217,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#yxgyeatcah) .gt_column_spanner_outer:first-child {
+:where(#qccofhicaw) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#yxgyeatcah) .gt_column_spanner_outer:last-child {
+:where(#qccofhicaw) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#yxgyeatcah) .gt_column_spanner {
+:where(#qccofhicaw) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -287,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#yxgyeatcah) .gt_group_heading {
+:where(#qccofhicaw) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -313,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#yxgyeatcah) .gt_empty_group_heading {
+:where(#qccofhicaw) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -328,15 +278,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#yxgyeatcah) .gt_from_md > :first-child {
+:where(#qccofhicaw) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#yxgyeatcah) .gt_from_md > :last-child {
+:where(#qccofhicaw) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#yxgyeatcah) .gt_row {
+:where(#qccofhicaw) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -355,7 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#yxgyeatcah) .gt_stub {
+:where(#qccofhicaw) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -368,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#yxgyeatcah) .gt_stub_row_group {
+:where(#qccofhicaw) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -382,11 +332,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#yxgyeatcah) .gt_row_group_first td {
+:where(#qccofhicaw) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#yxgyeatcah) .gt_summary_row {
+:where(#qccofhicaw) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -396,16 +346,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#yxgyeatcah) .gt_first_summary_row {
+:where(#qccofhicaw) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_first_summary_row.thick {
+:where(#qccofhicaw) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#yxgyeatcah) .gt_last_summary_row {
+:where(#qccofhicaw) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -415,7 +365,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_grand_summary_row {
+:where(#qccofhicaw) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -425,7 +375,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#yxgyeatcah) .gt_first_grand_summary_row {
+:where(#qccofhicaw) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -435,11 +385,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_striped {
+:where(#qccofhicaw) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#yxgyeatcah) .gt_table_body {
+:where(#qccofhicaw) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -448,7 +398,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_footnotes {
+:where(#qccofhicaw) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -462,7 +412,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_footnote {
+:where(#qccofhicaw) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -471,7 +421,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#yxgyeatcah) .gt_sourcenotes {
+:where(#qccofhicaw) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -485,7 +435,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#yxgyeatcah) .gt_sourcenote {
+:where(#qccofhicaw) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -493,64 +443,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#yxgyeatcah) .gt_left {
+:where(#qccofhicaw) .gt_left {
   text-align: left;
 }
 
-:where(#yxgyeatcah) .gt_center {
+:where(#qccofhicaw) .gt_center {
   text-align: center;
 }
 
-:where(#yxgyeatcah) .gt_right {
+:where(#qccofhicaw) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#yxgyeatcah) .gt_font_normal {
+:where(#qccofhicaw) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#yxgyeatcah) .gt_font_bold {
+:where(#qccofhicaw) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#yxgyeatcah) .gt_font_italic {
+:where(#qccofhicaw) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#yxgyeatcah) .gt_super {
+:where(#qccofhicaw) .gt_super {
   font-size: 65%;
 }
 
-:where(#yxgyeatcah) .gt_footnote_marks {
+:where(#qccofhicaw) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#yxgyeatcah) .gt_asterisk {
+:where(#qccofhicaw) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#yxgyeatcah) .gt_indent_1 {
+:where(#qccofhicaw) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#yxgyeatcah) .gt_indent_2 {
+:where(#qccofhicaw) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#yxgyeatcah) .gt_indent_3 {
+:where(#qccofhicaw) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#yxgyeatcah) .gt_indent_4 {
+:where(#qccofhicaw) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#yxgyeatcah) .gt_indent_5 {
+:where(#qccofhicaw) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -604,18 +554,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p><em><strong>Note</strong>: I am impressed! - using Stata it would cost me hundreds of lines creating such a table. Interestingly, the source code of “tbl_summary” is not that long: https://rdrr.io/cran/gtsummary/src/R/tbl_summary.R.</em></p>
+</blockquote>
+</blockquote>
 </section>
-<section id="table-1.2-for-a-hospital-report-reporting-data-of-my-clinic-vs.-all-other-clinics" class="level2">
-<h2 class="anchored" data-anchor-id="table-1.2-for-a-hospital-report-reporting-data-of-my-clinic-vs.-all-other-clinics">Table 1.2 for a hospital-report (reporting data of my clinic vs.&nbsp;all other clinics)</h2>
+<section id="table-1.2-overview-clinic-report" class="level2">
+<h2 class="anchored" data-anchor-id="table-1.2-overview-clinic-report">Table 1.2 Overview: Clinic report</h2>
+<p>The table above can easily be adapted to create an overview for a Clinic report by adding “by clinic” to the code. Furthermore, I added the option “p-value”:</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="ccjxmvwfmp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jewohohnzc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#ccjxmvwfmp) .gt_table {
+:where(#jewohohnzc) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -640,7 +596,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_heading {
+:where(#jewohohnzc) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -652,12 +608,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_caption {
+:where(#jewohohnzc) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#ccjxmvwfmp) .gt_title {
+:where(#jewohohnzc) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -669,7 +625,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_subtitle {
+:where(#jewohohnzc) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -681,13 +637,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_bottom_border {
+:where(#jewohohnzc) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_col_headings {
+:where(#jewohohnzc) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -702,7 +658,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_col_heading {
+:where(#jewohohnzc) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -722,7 +678,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#ccjxmvwfmp) .gt_column_spanner_outer {
+:where(#jewohohnzc) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -734,15 +690,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#ccjxmvwfmp) .gt_column_spanner_outer:first-child {
+:where(#jewohohnzc) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_column_spanner_outer:last-child {
+:where(#jewohohnzc) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_column_spanner {
+:where(#jewohohnzc) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -754,7 +710,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#ccjxmvwfmp) .gt_group_heading {
+:where(#jewohohnzc) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -780,7 +736,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#ccjxmvwfmp) .gt_empty_group_heading {
+:where(#jewohohnzc) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -795,15 +751,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#ccjxmvwfmp) .gt_from_md > :first-child {
+:where(#jewohohnzc) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_from_md > :last-child {
+:where(#jewohohnzc) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_row {
+:where(#jewohohnzc) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -822,7 +778,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#ccjxmvwfmp) .gt_stub {
+:where(#jewohohnzc) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -835,7 +791,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_stub_row_group {
+:where(#jewohohnzc) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -849,11 +805,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#ccjxmvwfmp) .gt_row_group_first td {
+:where(#jewohohnzc) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#ccjxmvwfmp) .gt_summary_row {
+:where(#jewohohnzc) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -863,16 +819,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_first_summary_row {
+:where(#jewohohnzc) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_first_summary_row.thick {
+:where(#jewohohnzc) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#ccjxmvwfmp) .gt_last_summary_row {
+:where(#jewohohnzc) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -882,7 +838,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_grand_summary_row {
+:where(#jewohohnzc) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -892,7 +848,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_first_grand_summary_row {
+:where(#jewohohnzc) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -902,11 +858,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_striped {
+:where(#jewohohnzc) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#ccjxmvwfmp) .gt_table_body {
+:where(#jewohohnzc) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -915,7 +871,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_footnotes {
+:where(#jewohohnzc) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -929,7 +885,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_footnote {
+:where(#jewohohnzc) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -938,7 +894,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_sourcenotes {
+:where(#jewohohnzc) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -952,7 +908,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ccjxmvwfmp) .gt_sourcenote {
+:where(#jewohohnzc) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -960,64 +916,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_left {
+:where(#jewohohnzc) .gt_left {
   text-align: left;
 }
 
-:where(#ccjxmvwfmp) .gt_center {
+:where(#jewohohnzc) .gt_center {
   text-align: center;
 }
 
-:where(#ccjxmvwfmp) .gt_right {
+:where(#jewohohnzc) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#ccjxmvwfmp) .gt_font_normal {
+:where(#jewohohnzc) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#ccjxmvwfmp) .gt_font_bold {
+:where(#jewohohnzc) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#ccjxmvwfmp) .gt_font_italic {
+:where(#jewohohnzc) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#ccjxmvwfmp) .gt_super {
+:where(#jewohohnzc) .gt_super {
   font-size: 65%;
 }
 
-:where(#ccjxmvwfmp) .gt_footnote_marks {
+:where(#jewohohnzc) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#ccjxmvwfmp) .gt_asterisk {
+:where(#jewohohnzc) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#ccjxmvwfmp) .gt_indent_1 {
+:where(#jewohohnzc) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#ccjxmvwfmp) .gt_indent_2 {
+:where(#jewohohnzc) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#ccjxmvwfmp) .gt_indent_3 {
+:where(#jewohohnzc) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#ccjxmvwfmp) .gt_indent_4 {
+:where(#jewohohnzc) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#ccjxmvwfmp) .gt_indent_5 {
+:where(#jewohohnzc) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1106,7 +1062,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>This is amazing - the table is a good start, it is produced with a few lines of codes. It would cost me hundreds of lines creating and exporting the same kind of table and graph using STATA…</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p><strong>Note 1</strong>: p-values only provide <strong>indications</strong> of potential differences between my clinic and all other clinics. No correction for repeated testing has been performed.</p>
+</blockquote>
+</blockquote>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>*<strong>Note2</strong>: p-values were calculated using the default-options. For an actual report I may consider using t-tests e.g.&nbsp;if N&gt;100 vs.&nbsp;Wilcoxon-test for 10&lt;N&lt;100. Of course this needs to be programmed flexibly as I do not no the N a priori.</p>
+</blockquote>
+</blockquote>
+</section>
+<section id="graph-2.1.-density-plot-of-age" class="level2">
+<h2 class="anchored" data-anchor-id="graph-2.1.-density-plot-of-age">Graph 2.1. Density plot of age</h2>
+<p>A density plot showing the age-distribution in my clinic vs.&nbsp;all other clinics is shown below:</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="01_registry_hospital_report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
@@ -1121,41 +1090,183 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="follows-a-boxplot">Follows a boxplot</h2>
 <p>add some text here.</p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Paket 'rstatix' wurde unter R Version 4.1.3 erstellt</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attache Paket: 'rstatix'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Das folgende Objekt ist maskiert 'package:stats':
 
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [4,434 x 41] (S3: tbl_df/tbl/data.frame)
+ $ randid  : num [1:4434] 2448 6238 9428 10552 11252 ...
+ $ sex     : Factor w/ 2 levels "f","m": 1 2 1 2 2 2 2 2 1 1 ...
+ $ totchol : num [1:4434] 195 250 245 225 285 228 205 313 260 225 ...
+ $ age     : num [1:4434] 39 46 48 61 46 43 63 45 52 43 ...
+ $ sysbp   : num [1:4434] 106 121 128 150 130 ...
+ $ diabp   : num [1:4434] 70 81 80 95 84 110 71 71 89 107 ...
+ $ cursmoke: num [1:4434] 0 0 1 1 1 0 0 1 0 1 ...
+ $ cigpday : num [1:4434] 0 0 20 30 23 0 0 20 0 30 ...
+ $ bmi     : num [1:4434] 27 28.7 25.3 28.6 23.1 ...
+ $ diabetes: num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ bpmeds  : num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ heartrte: num [1:4434] 80 95 75 65 85 77 60 79 76 93 ...
+ $ glucose : num [1:4434] 77 76 70 103 85 99 85 78 79 88 ...
+ $ educ    : num [1:4434] 4 2 1 3 3 2 1 2 1 1 ...
+ $ prevchd : num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ prevap  : num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ prevmi  : num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ prevstrk: num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ prevhyp : num [1:4434] 0 0 0 1 0 1 0 0 1 1 ...
+ $ time    : num [1:4434] 0 0 0 0 0 0 0 0 0 0 ...
+ $ period  : num [1:4434] 1 1 1 1 1 1 1 1 1 1 ...
+ $ hdlc    : num [1:4434] NA NA NA NA NA NA NA NA NA NA ...
+ $ ldlc    : num [1:4434] NA NA NA NA NA NA NA NA NA NA ...
+ $ death   : num [1:4434] 0 0 0 1 0 0 0 0 0 0 ...
+ $ angina  : num [1:4434] 0 0 0 0 0 0 1 0 0 0 ...
+ $ hospmi  : num [1:4434] 1 0 0 0 0 0 0 0 0 0 ...
+ $ mi_fchd : num [1:4434] 1 0 0 0 0 1 0 0 0 0 ...
+ $ anychd  : num [1:4434] 1 0 0 0 0 1 1 0 0 0 ...
+ $ stroke  : num [1:4434] 0 0 0 1 0 0 0 0 0 0 ...
+ $ cvd     : num [1:4434] 1 0 0 1 0 1 0 0 0 0 ...
+ $ hyperten: num [1:4434] 0 0 0 1 1 1 1 1 1 1 ...
+ $ timeap  : num [1:4434] 8766 8766 8766 2956 8766 ...
+ $ timemi  : num [1:4434] 6438 8766 8766 2956 8766 ...
+ $ timemifc: num [1:4434] 6438 8766 8766 2956 8766 ...
+ $ timechd : num [1:4434] 6438 8766 8766 2956 8766 ...
+ $ timestrk: num [1:4434] 8766 8766 8766 2089 8766 ...
+ $ timecvd : num [1:4434] 6438 8766 8766 2089 8766 ...
+ $ timedth : num [1:4434] 8766 8766 8766 2956 8766 ...
+ $ timehyp : num [1:4434] 8766 8766 8766 0 4285 ...
+ $ dep_id  : num [1:4434] 3 3 3 3 3 3 3 3 3 3 ...
+ $ clinic  : Factor w/ 2 levels "my clinic","all other clinics": 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="01_registry_hospital_report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="is-systolic-blood-pressure-different-in-the-first-vs.-4th-quartile-of-bmi" class="level2">
 <h2 class="anchored" data-anchor-id="is-systolic-blood-pressure-different-in-the-first-vs.-4th-quartile-of-bmi">is systolic blood pressure different in the first vs.&nbsp;4th quartile of bmi?</h2>
 <p>Since I have high numbers in both groups, it is safe to do a t-test:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| echo: FALSE</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># table(db$bmi_group) </span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # if I do this for the entire registry, I am safe, the numbers are high... </span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">###</span><span class="co"> hypothesis: the sysbp is different in the group of the highest and lowest bmi:</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># #### I am now doing a t-test:</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># #?t_test</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># db|&gt;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   mutate(bmi_group = ntile(bmi, 4)) |&gt; ## does it what I expect? i.e. generate  --&gt; should be tested...</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   dplyr::filter(bmi_group == 1 | bmi_group == 4) |&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   # Two-samples unpaired test</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   #:::::::::::::::::::::::::::::::::::::::::</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   t_test(sysbp ~ bmi_group)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Unknown or uninitialised column: `bmi_group`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; table of extent 0 &gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 8
+  .y.   group1 group2    n1    n2 statistic    df        p
+* &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 sysbp 1      4       1104  1103     -18.5 2130. 1.17e-70</code></pre>
+</div>
 </div>
 </section>
 <section id="analysis-of-data-of-my-clinic" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-of-data-of-my-clinic">Analysis of data of “my clinic”</h2>
 <div class="cell">
-
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 1  4 
+47 46 </code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [93 x 42] (S3: tbl_df/tbl/data.frame)
+ $ randid   : num [1:93] 43770 162207 205391 256485 388279 ...
+ $ sex      : Factor w/ 2 levels "f","m": 2 2 1 1 1 2 2 1 1 2 ...
+ $ totchol  : num [1:93] 234 212 286 197 209 259 215 219 217 186 ...
+ $ age      : num [1:93] 52 62 62 49 39 67 58 65 64 38 ...
+ $ sysbp    : num [1:93] 148 190 118 123 134 ...
+ $ diabp    : num [1:93] 78 99 80 69 82 101 86 90 87 57 ...
+ $ cursmoke : num [1:93] 0 0 1 1 1 0 1 1 0 0 ...
+ $ cigpday  : num [1:93] 0 0 20 20 40 0 5 15 0 0 ...
+ $ bmi      : num [1:93] 34.2 29.6 31.6 29.6 28.3 ...
+ $ diabetes : num [1:93] 0 1 1 0 0 0 0 0 0 0 ...
+ $ bpmeds   : num [1:93] 0 0 0 0 0 0 0 0 0 0 ...
+ $ heartrte : num [1:93] 70 100 75 76 70 90 75 77 77 85 ...
+ $ glucose  : num [1:93] 113 202 195 60 75 86 98 97 NA 68 ...
+ $ educ     : num [1:93] 1 1 1 1 1 4 2 1 1 2 ...
+ $ prevchd  : num [1:93] 0 0 1 0 0 1 0 0 0 0 ...
+ $ prevap   : num [1:93] 0 0 0 0 0 1 0 0 0 0 ...
+ $ prevmi   : num [1:93] 0 0 1 0 0 0 0 0 0 0 ...
+ $ prevstrk : num [1:93] 0 0 0 0 0 0 0 0 0 0 ...
+ $ prevhyp  : num [1:93] 0 1 0 0 0 1 0 1 1 0 ...
+ $ time     : num [1:93] 0 0 0 0 0 0 0 0 0 0 ...
+ $ period   : num [1:93] 1 1 1 1 1 1 1 1 1 1 ...
+ $ hdlc     : num [1:93] NA NA NA NA NA NA NA NA NA NA ...
+ $ ldlc     : num [1:93] NA NA NA NA NA NA NA NA NA NA ...
+ $ death    : num [1:93] 1 1 1 0 0 1 0 1 1 0 ...
+ $ angina   : num [1:93] 0 0 0 0 0 1 0 0 0 0 ...
+ $ hospmi   : num [1:93] 1 0 1 0 0 0 0 0 1 0 ...
+ $ mi_fchd  : num [1:93] 1 0 1 0 0 0 0 0 1 0 ...
+ $ anychd   : num [1:93] 1 1 1 0 0 1 0 0 1 0 ...
+ $ stroke   : num [1:93] 0 0 0 0 0 0 0 1 0 0 ...
+ $ cvd      : num [1:93] 1 1 1 0 0 0 0 1 1 0 ...
+ $ hyperten : num [1:93] 1 1 0 1 1 1 1 1 1 0 ...
+ $ timeap   : num [1:93] 6410 8406 1833 8766 8766 ...
+ $ timemi   : num [1:93] 6384 8406 0 8766 8766 ...
+ $ timemifc : num [1:93] 6384 8406 0 8766 8766 ...
+ $ timechd  : num [1:93] 6384 5413 0 8766 8766 ...
+ $ timestrk : num [1:93] 6410 8406 1833 8766 8766 ...
+ $ timecvd  : num [1:93] 6384 5413 0 8766 8766 ...
+ $ timedth  : num [1:93] 6410 8406 1833 8766 8766 ...
+ $ timehyp  : num [1:93] 723 0 1833 5115 5778 ...
+ $ dep_id   : num [1:93] 1 1 1 1 1 1 1 1 1 1 ...
+ $ clinic   : Factor w/ 2 levels "my clinic","all other clinics": 1 1 1 1 1 1 1 1 1 1 ...
+ $ bmi_group: int [1:93] 4 4 4 4 4 1 4 4 4 1 ...</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="01_registry_hospital_report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="01_registry_hospital_report_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>#add some text here!</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  variable statistic       p
+  &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;
+1 sysbp        0.958 0.00452</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Printing group: 1"
+[1] "Printing counter: 1"
+[1] "Shapiro-Wilk test result for db_clin_1"
+# A tibble: 1 x 3
+  variable           statistic p.value
+  &lt;chr&gt;                  &lt;dbl&gt;   &lt;dbl&gt;
+1 get(df_name)$sysbp     0.970   0.268
+[1] "Printing group: 4"
+[1] "Printing counter: 2"
+[1] "Shapiro-Wilk test result for db_clin_2"
+# A tibble: 1 x 3
+  variable           statistic p.value
+  &lt;chr&gt;                  &lt;dbl&gt;   &lt;dbl&gt;
+1 get(df_name)$sysbp     0.927 0.00646</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 7
+  .y.   group1 group2    n1    n2 statistic         p
+* &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 sysbp 1      4         47    46       508 0.0000108</code></pre>
+</div>
+</div>
+<p>add some text here</p>
 <div class="cell">
 
 </div>
 </section>
-<section id="questions" class="level2">
-<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">next steps:</h2>
 <ul>
 <li>Assuming I wanted to create a benchmark report for all my clinics (my clinic vs.&nbsp;Pool) –&gt; How would I organize my work? -master-file, invoking:</li>
 </ul>

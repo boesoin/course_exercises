@@ -1,17 +1,31 @@
 ---
-title: "myfirst_quarto"
-author: "ab"
-format: html
-editor: visual
+title: "Swiss Health Registry - Yearly report 2023"
+author: "A. Boss"
+date: today # this is easy :-)
+output:
+  html_document:
+    #toc: true # to be checked
+    #css: styles.css # refers to a file encoding stiles
 ---
 
-## my first report using QUARTO for the "Swiss Health-Registry"
 
-In a first part, which I would probably run as a normal R-Script (01_import), I am loading-in my data.
+## Background
 
-```{r eval=TRUE, echo=FALSE, include=FALSE}
+My work involves creating reproducible reports using our medical registry data. Typically, we create two types of reports: 'registry reports,' which utilize descriptive statistics from the entire registry, and 'clinic reports,' which compare data from our clinic to the aggregated data of all other clinics. Until now, we have been utilizing the statistical software package 'STATA.' While STATA allows for reproducible reporting, the project setup process is laborious, and it lacks flexibility in choosing the output format.
 
-sessionInfo()
+RStudio, an open-source statistical package widely used in biomedical research, offers an alternative. Its package called 'QUARTO' promises to provide a simpler way of creating reproducible reports with multiple options for output formats.
+
+### Aim
+
+Aim of this project is to assess the potential of Rstudios' 'QUARTO'-package for reproducible reporting of registry data.
+
+### Methods
+
+Dummy data was obtained using the Framingam data-frame ('riskCommunicator'-package). Dummy department_IDs were created. Please refer to the QUARTO-file for the code.
+
+```{r eval=TRUE, echo=FALSE, include=FALSE, warning=FALSE}
+
+sessionInfo() # will now not be printed...
 #### download if necessary and load the libraries:
 pacman::p_load(
   rio,         # import/export
@@ -30,14 +44,11 @@ pacman::p_load(
 ###
 # Framingham heart study data
 fram <- riskCommunicator::framingham
-
-
 ```
 
-Then I would preprocess (02_preprocess):
-
-```{r eval=TRUE, echo=FALSE, include=FALSE}
+```{r eval=TRUE, echo=FALSE, include=FALSE, warning = FALSE}
 #| echo: false
+############### preprocessing
 # We keep only the baseline examination data
 db <- subset(fram, TIME == 0)
 
@@ -123,21 +134,15 @@ names(db) <- tolower(names(db)) # ok... that is not straight-forward
 str(db)
 ###
 
-
-##### label other variables
-# db <- db %>%
-#   mutate(sex = case_when(
-#     sex == 1 ~ "f",
-#     sex == 2 ~ "m",
-#     TRUE ~ as.character(sex)  # Retain other values as is
-#   ))
 str(db)
 ```
 
-## Table 1.1 for a registry-report (reporting data of the entire registry)
+## Table 1.1 Overview: Registry report
 
-```{r}
-#| echo: FALSE
+Using the 'tidyverse'-package 'gtsummary', an overview-table can be created easily:
+
+```{r echo=FALSE, warning=FALSE}
+
 library(gtsummary)
 library(dplyr)
 db |>
@@ -156,9 +161,13 @@ db |>
 
 ```
 
-## Table 1.2 for a hospital-report (reporting data of my clinic vs. all other clinics)
+> > ***Note**: I am impressed! - using Stata it would cost me hundreds of lines creating such a table. Interestingly, the source code of "tbl_summary" is not that long: https://rdrr.io/cran/gtsummary/src/R/tbl_summary.R.*
 
-```{r}
+## Table 1.2 Overview: Clinic report
+
+The table above can easily be adapted to create an overview for a Clinic report by adding "by clinic" to the code. Furthermore, I added the option "p-value":
+
+```{r echo=FALSE, warning=FALSE}
 #| echo: FALSE
 library(gtsummary)
 
@@ -178,8 +187,14 @@ db |>
   ) |>
   add_p() # note: added w/o looking into details. Idea: gives hint if there are significant differences
 ```
-This is amazing - the table is a good start, it is produced with a few lines of codes. It would cost me hundreds of lines creating and exporting the same kind of table and graph using STATA...
 
+> > **Note 1**: p-values only provide **indications** of potential differences between my clinic and all other clinics. No correction for repeated testing has been performed.
+
+> > ***Note2**: p-values were calculated using the default-options. For an actual report I may consider using t-tests e.g. if N>100 vs. Wilcoxon-test for 10<N<100. Of course this needs to be programmed flexibly as I do not no the N a priori. 
+
+
+## Graph 2.1. Density plot of age 
+A density plot showing the age-distribution in my clinic vs. all other clinics is shown below: 
 
 ```{r}
 #| echo: FALSE
@@ -196,11 +211,7 @@ db |>
     scale_fill_brewer(palette = "Set2") +
     theme_minimal()
 
-
 ```
-
-
-
 
 ## Data exploration
 
@@ -255,8 +266,8 @@ db|>
 
 ```{r}
 #| echo: FALSE
-str(db)
-table(db$clinic)
+#str(db)
+#table(db$clinic)
 
 db_clin<- db |>
   dplyr::filter(clinic == "my clinic") |>  # apparently, I have to use the label of the factor...
@@ -268,10 +279,6 @@ str(db_clin)
 ### now I have a a dataset with lower n..
 # --> let's make a histogram across groups
 
-library(ggplot2)
-library(dplyr)
-
-
 db_clin %>%
   ggplot(aes(sysbp)) +
   geom_histogram(bins = 16, alpha=0.5) +
@@ -279,12 +286,12 @@ db_clin %>%
   ylab("Count") +
   ggtitle("Histogram of Systolic Blood Pressure") +
   theme_minimal() +
-  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "BMI-group 1", "4" = " BMI-group 4"))) +
+  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "1st BMI-quartile", "4" = " 4th BMI-quartile")))
 ###
 
 ### qqplot
-library(ggplot2)
-library(dplyr)
+# library(ggplot2)
+# library(dplyr)
 
 db_clin %>%
   ggplot(aes(sample = sysbp)) +
@@ -294,8 +301,10 @@ db_clin %>%
   ylab("Sample Quantiles") +
   ggtitle("QQ Plot of Systolic Blood Pressure") +
   theme_minimal() +
-  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "BMI-group 1", "4" = " BMI-group 4")))  
+  facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "1st quartile of BMI", "4" = " 4th quartile of BMI")))  
 ```
+
+#add some text here!
 
 ```{r}
 #| echo: FALSE
@@ -308,7 +317,6 @@ db_clin %>%
 db_clin <- arrange(db_clin, bmi_group)
 groups <- unique(db_clin$bmi_group) # this will create a vector. How can I change the order? --> by ordering the data first ;-) 
 
-#groups <- data.frame(groups) # if I wanted a group
 counter <- 0
 for (group in groups) {
   counter <- counter + 1
@@ -329,6 +337,7 @@ db_clin %>%
   wilcox_test(sysbp ~ bmi_group)
   
 ```
+
 add some text here
 
 ```{r}
@@ -338,7 +347,7 @@ add some text here
 #have a look at it!
 ```
 
-## Questions
+## next steps:
 
 -   Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --\> How would I organize my work? -master-file, invoking:
 
