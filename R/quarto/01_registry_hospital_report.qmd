@@ -11,17 +11,17 @@ output:
 
 ## Background
 
-My work involves creating reproducible reports using our medical registry data. Typically, we create two types of reports: 'registry reports,' which utilize descriptive statistics from the entire registry, and 'clinic reports,' which compare data from our clinic to the aggregated data of all other clinics. Until now, we have been utilizing the statistical software package 'STATA.' While STATA allows for reproducible reporting, the project setup process is laborious, and it lacks flexibility in choosing the output format.
+My work involves creating reproducible reports using our medical registry data. Typically, we create two types of reports: 'registry reports,' which utilize descriptive statistics from the entire registry, and 'clinic reports,' which compare data from  one clinic to the aggregated data of all other clinics. Until now, we have been utilizing the statistical software package 'STATA.' While STATA allows for reproducible reporting, the project setup process is laborious, and it lacks flexibility in choosing the output format.
 
 RStudio, an open-source statistical package widely used in biomedical research, offers an alternative. Its package called 'QUARTO' promises to provide a simpler way of creating reproducible reports with multiple options for output formats.
 
 ### Aim
 
-Aim of this project is to assess the potential of Rstudios' 'QUARTO'-package for reproducible reporting of registry data.
+Aim of this project is to assess the potential of Rstudio's 'QUARTO'-package for reproducible reporting of registry data.
 
 ### Methods
 
-Dummy data was obtained using the Framingam data-frame ('riskCommunicator'-package). Dummy department_IDs were created. Please refer to the QUARTO-file for the code.
+Dummy data was obtained using the 'Framingam' data set ('riskCommunicator'-package). Dummy department_IDs were created. Please refer to the QUARTO-file for the code.
 
 ```{r eval=TRUE, echo=FALSE, include=FALSE, warning=FALSE}
 
@@ -165,7 +165,7 @@ db |>
 
 ## Table 1.2 Overview: Clinic report
 
-The table above can easily be adapted to create an overview for a Clinic report by adding "by clinic" to the code. Furthermore, I added the option "p-value":
+The table above can easily be adapted to create an overview for a Clinic report simply by adding "by clinic" to the code. Furthermore, the option "p-value" is added:
 
 ```{r echo=FALSE, warning=FALSE}
 #| echo: FALSE
@@ -190,11 +190,11 @@ db |>
 
 > > **Note 1**: p-values only provide **indications** of potential differences between my clinic and all other clinics. No correction for repeated testing has been performed.
 
-> > ***Note2**: p-values were calculated using the default-options. For an actual report I may consider using t-tests e.g. if N>100 vs. Wilcoxon-test for 10<N<100. Of course this needs to be programmed flexibly as I do not no the N a priori. 
+> > ***Note2**: p-values are calculated using the default-options. For an actual report I may consider using t-test e.g. if N>100 vs. Wilcoxon-test for 10<N<100. Of course this needs to be programmed flexibly as I do not have a-priori knowledge of N. 
 
 
 ## Graph 2.1. Density plot of age 
-A density plot showing the age-distribution in my clinic vs. all other clinics is shown below: 
+A density plot of the age-distribution in my clinic vs. all other clinics is shown below: 
 
 ```{r}
 #| echo: FALSE
@@ -213,20 +213,21 @@ db |>
 
 ```
 
-## Data exploration
 
-One could now do a t-test for age between the two groups "my clinic" vs. "all other clinics". This is not that interesting... What I will do instead: compare the first quantile in BMI with the last quantile. I will do this for the entire registry and also in the reduced dataset of "my clinic".
+## 3 Data exploration
+### 3.1 Methods
+One could now do a t-test for age between the two groups "my clinic" vs. "all other clinics". Since this is not very interesting, the following is done instead: Quartiles of BMI are created. Thereafter the hypothesis will be tested that systolic blood pressure (sysbp) is different in the highest vs. lowest quartile of BMI. This will be done for the entire registry (chaptr. 3.2) and for "my clinic" only (chaptr. 3.3).
 
-## Follows a boxplot
 
-add some text here.
+### 3.2.1  box-plot of systolic bp
 
-```{r}
-#| echo: FALSE
+A box-plot of sysbp for quartiles 1 and 4 of BMI is shown below.
+
+```{r echo=FALSE, warning=FALSE}
 
 library(dplyr)
 library(rstatix)
-str(db)
+#str(db)
 db|>
   mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate  --> should be tested...
   dplyr::filter(bmi_group == 1 | bmi_group == 4) |>
@@ -238,14 +239,14 @@ db|>
   theme_minimal()
 
 ```
+The graph indeed indicates that there may be a significant (and potentially relevant) difference between the two groups. Let's do a t-test.
 
-## is systolic blood pressure different in the first vs. 4th quartile of bmi?
+### 3.2.2 t-test (entire registry data)
 
-Since I have high numbers in both groups, it is safe to do a t-test:
-
+Since the number of observations is relatively high in both groups, a t-test can be performed (central limit theorem). 
 ```{r}
 #| echo: FALSE
-table(db$bmi_group)
+#table(db$bmi_group)
 # if I do this for the entire registry, I am safe, the numbers are high...
 
 ### hypothesis: the sysbp is different in the group of the highest and lowest bmi:
@@ -261,9 +262,13 @@ db|>
   t_test(sysbp ~ bmi_group)
 
 ```
+Indeed, the p-value of 1.17e-70 indicates extremely strong evidence against the null hypothesis of equal means across groups. Therefore, the observed difference is highly significant.
 
-## Analysis of data of "my clinic"
+## 3.3 Analysis of sysbp within "my clinic"
+In the following, the same hypothesis will be tested for the reduced data set of "my clinic". It is anticipated that due to the lower number of observations and therefore increased likeliness of non-normal data distribution, non-parametric tests will have to be applied. 
 
+### 3.3.1 Histogram and qqplot within "my clinic"
+In the following, the histograms and qqplots for both groups, first and fourth quartile of BMI, are shown:
 ```{r}
 #| echo: FALSE
 #str(db)
@@ -273,8 +278,8 @@ db_clin<- db |>
   dplyr::filter(clinic == "my clinic") |>  # apparently, I have to use the label of the factor...
   mutate(bmi_group = ntile(bmi, 4)) |> ## does it what I expect? i.e. generate quartiles of bmi  --> should be tested...
   dplyr::filter(bmi_group == 1 | bmi_group == 4)
-table(db_clin$bmi_group)
-str(db_clin)
+#table(db_clin$bmi_group)
+#str(db_clin)
 
 ### now I have a a dataset with lower n..
 # --> let's make a histogram across groups
@@ -303,15 +308,17 @@ db_clin %>%
   theme_minimal() +
   facet_wrap(~ bmi_group, labeller = labeller(bmi_group = c("1" = "1st quartile of BMI", "4" = " 4th quartile of BMI")))  
 ```
+The graphs indicate that the data is not uniformly distributed, particularly for the 4th BMI quartile, where the distribution of sysbp appears to be right-skewed. To test this hypothesis, a Shapiro test is performed.
 
-#add some text here!
+
+### 3.3.2 Shapiro-test
 
 ```{r}
 #| echo: FALSE
 ### normality-test:
 # remember: Ho: normal distribution
-db_clin %>%
-  shapiro_test(sysbp)
+#db_clin %>%
+#  shapiro_test(sysbp)
 
 ### test: for-loop:
 db_clin <- arrange(db_clin, bmi_group)
@@ -320,8 +327,8 @@ groups <- unique(db_clin$bmi_group) # this will create a vector. How can I chang
 counter <- 0
 for (group in groups) {
   counter <- counter + 1
-  print(paste("Printing group:", group))
-  print(paste("Printing counter:", counter))
+  #print(paste("Printing group:", group))
+  #print(paste("Printing counter:", counter))
   
   df_name <- paste("db_clin_", counter, sep = "") # this concatenates
   assign(df_name, db_clin %>% # assigns a value to a name..
@@ -332,26 +339,23 @@ for (group in groups) {
   print(shapiro_result)
 }  
 # --> since the p-value of one group and both groups together is not in agreement with the H0, I will now perform a non-parametric test.
-
-db_clin %>%
-  wilcox_test(sysbp ~ bmi_group)
-  
 ```
+ > > **Note**: the Shapiro-test has been performed twice using a for-loop. In the output above "db_clin_1" refers to the first quartile of BMI, "db_clin_2" refers to the 4th quartile of BMI. 
+ 
+For the group with the highest BMI, we obtain a highly significant test-result. This means that the present distribution of data is very unlikely under the null hypothesis of normal distribution. Therefore, the non-parametric Wilcoxon-test is performed.
 
-add some text here
+### 3.3.3 Wilcoxon-Test
 
 ```{r}
-#| echo: false
-################################# render #################################
-#quarto::quarto_render("R/quarto/01_registry_hospital_report.Rmd")
-#have a look at it!
+#| echo: FALSE
+db_clin %>%
+  wilcox_test(sysbp ~ bmi_group)
+
 ```
+Also in this reduced data-set of "my clinic", using the non-parametric Wilcoxon-test, a highly significant p-value suggests a highly significant difference between the two groups. 
 
-## next steps:
 
--   Assuming I wanted to create a benchmark report for all my clinics (my clinic vs. Pool) --\> How would I organize my work? -master-file, invoking:
+## Preliminary conclusion and outlook 
+Simple reproducible reports can easily be implemented using 'QUARTO'. One of the next steps is the automated creation of clinic reports using loops (or the mapping functions of the 'purrr' package).
 
-1)  r-script: data-import
-2)  r-script: preprocessing of data then: loop over all departments and\
-    3)r-script: analysis - graphs
-3)  quarto-script: publish report (as xml, pdf, )
+
